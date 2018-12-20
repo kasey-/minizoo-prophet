@@ -102,3 +102,7 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# Pickle files
+*.pkl
+*.pkl.compress

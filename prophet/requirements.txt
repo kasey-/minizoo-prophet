@@ -1,0 +1,5 @@
+flask-cors
+pandas
+fbprophet
+gunicorn
+xlrd
