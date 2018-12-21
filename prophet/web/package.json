@@ -4,7 +4,7 @@
   "description": "Webapp for the Facebook Prophet aaS  minizoo app",
   "main": "main.js",
   "scripts": {
-    "build": "browserify main.js -o js/bundle.js",
+    "build": "browserify main.js | terser -c -m -- > bundle.min.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
