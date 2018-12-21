@@ -1,0 +1,17 @@
+{
+  "name": "minizoo-prophet-webapp",
+  "version": "0.0.0",
+  "description": "Webapp for the Facebook Prophet aaS  minizoo app",
+  "main": "main.js",
+  "scripts": {
+    "build": "browserify main.js -o js/bundle.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "lodash": "^4.17.11",
+    "papaparse": "^4.6.2"
+  }
+}
