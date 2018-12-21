@@ -22,28 +22,24 @@ m = Prophet()
 def dataset():
     fileid = hashlib.sha224(str(request.data).encode('utf-8')).hexdigest()
     dataFromJson = json.loads(request.data)
+    dataFromJson.pop()
     dataNPArray = np.array(dataFromJson)
     df = pd.DataFrame({'ds':dataNPArray[:,0],'y':dataNPArray[:,1]})
-    cfile = bz2.BZ2File("./files/"+fileid+".pkl.bz2", 'w')
-    pickle.dump(df, cfile)
-    return json.dumps({"id":fileid,"import":True})
-
-@app.route('/prophet/<fileid>/fit', methods=["POST"])
-def fit(fileid):
-    df = pd.read_pickle("./files/"+fileid+".pkl.bz2", compression="bz2")
     m = Prophet()
     m.fit(df)
-    cfile = bz2.BZ2File("./models/"+fileid+".pkl.bz2", 'w')
-    pickle.dump(m, cfile)
-    return json.dumps({"id":fileid,"fit":True})
+    dataArchive = bz2.BZ2File("./archive/"+fileid+".data.bz2", 'w')
+    modelArchive = bz2.BZ2File("./archive/"+fileid+".model.bz2", 'w')
+    pickle.dump(df, dataArchive)
+    pickle.dump(m, modelArchive)
+    return json.dumps({"id":fileid,"import":True,"fit":True})
 
 @app.route('/prophet/<fileid>/predict/<int:periods>', methods=["GET"])
 def predict(fileid,periods):
-    m = pickle.load(bz2.BZ2File("./models/"+fileid+".pkl.bz2", "r"))
+    m = pickle.load(bz2.BZ2File("./archive/"+fileid+".model.bz2", "r"))
     future = m.make_future_dataframe(periods=periods)
     forecast = m.predict(future)
     print(forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].tail())
-    return "prophet predict: "+periods
+    return '{"id":fileid,"forecast":'+forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].to_json()+'}'
 
 if __name__ == '__main__':
     app.run(debug=True)
