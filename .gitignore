@@ -104,8 +104,7 @@ venv.bak/
 .mypy_cache/
 
 # Pickle files
-*.pkl
-*.pkl.bz2
+*.bz2
 
 # Logs
 logs
