@@ -37,7 +37,7 @@ def dataset():
         pickle.dump(m, modelArchive)
     return jsonify({"id":fileid,"import":True,"fit":True})
 
-@app.route('/prophet/<fileid>/predict/<int:periods>', methods=["GET"])
+@app.route('/prophet/dataset/<fileid>/predict/<int:periods>', methods=["GET"])
 def predict(fileid,periods):
     m = pickle.load(bz2.BZ2File("./archive/"+fileid+".model.bz2", "r"))
     forecastFileName = "./archive/"+fileid+".forecast.bz2"
