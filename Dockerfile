@@ -1,6 +1,4 @@
-FROM python:3
-
-WORKDIR /usr/src/app
+FROM python:3.6
 
 COPY ./prophet /app
 WORKDIR /app
