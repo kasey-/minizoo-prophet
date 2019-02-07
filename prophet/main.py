@@ -11,9 +11,6 @@ import bz2
 import pickle
 import os
 
-from minio import Minio
-from minio.error import ResponseError
-
 import json
 import numpy as np
 import pandas as pd
