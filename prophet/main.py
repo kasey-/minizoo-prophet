@@ -16,16 +16,6 @@ import numpy as np
 import pandas as pd
 from fbprophet import Prophet
 
-minioClient = Minio('play.minio.io:9000',
-                  access_key='2FWEHXKC6JNNZKRMMSP1',
-                  secret_key='cRkrU5388Mb7PQ+IXjrKgGPsqGw4XuK34v8ptwKP',
-                  secure=False)
-
-try:
-    minioClient.make_bucket("minizoo-prophet", location="us-east-1")
-except ResponseError as err:
-    print(err)
-
 app = Flask(__name__)
 CORS(app)
 m = Prophet()
