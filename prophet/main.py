@@ -5,17 +5,20 @@ from flask import Flask
 from flask_cors import CORS
 from flask import request
 from flask import jsonify
+from flask import abort
 import mimetypes
 import hashlib
 import bz2
 import pickle
 import os
+import re
 
 import json
 import numpy as np
 import pandas as pd
 from fbprophet import Prophet
 
+is_uuid_correct = re.compile("^[a-f0-9]{56}$")
 app = Flask(__name__)
 CORS(app)
 m = Prophet()
@@ -38,6 +41,8 @@ def dataset():
 
 @app.route('/prophet/dataset/<fileid>/predict/<int:periods>', methods=["GET"])
 def predict(fileid,periods):
+    if not is_uuid_correct.match(fileid):
+        abort(404)
     m = pickle.load(bz2.BZ2File("./archive/"+fileid+".model.bz2", "r"))
     forecastFileName = "./archive/"+fileid+".forecast.bz2"
     if os.path.isfile(forecastFileName):
