@@ -51,6 +51,3 @@ def predict(fileid,periods):
         forecast[['ds','yhat','yhat_lower','yhat_upper']].to_json()
     )
     return jsonify({"id":fileid,"forecast":predict})
-
-if __name__ == '__main__':
-    app.run(debug=True)
